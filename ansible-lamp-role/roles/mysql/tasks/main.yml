@@ -1,0 +1,27 @@
+- name: Add the repository for MySql 5.6
+  become: yes
+  command: add-apt-repository 'deb http://archive.ubuntu.com/ubuntu trusty universe'
+   apt_repository: repo='deb http://ubuntu-cloud.archive.canonical.com/{{ ansible_distribution | lower }} {{ ansibl
+   
+- name: Add signing key for MariaDB repository
+  apt_key:
+    keyserver: keyserver.ubuntu.com 
+    id: 0xF1656F24C74CD1D8
+
+- name: Add repository for MariaDB
+ apt_repository: repo='deb http://ftp.heanet.ie/mirrors/mariadb/repo/10.3/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} main' state=present
+ 
+- name: Update
+  become: yes
+  command: apt-get update
+
+- name: Install mariadb
+  apt: pkg={{ item }} state=installed
+  become: true
+  with_items:    
+    - mariadb-server
+
+- name : Ensure mariadb-server started
+  become: yes
+  service: name=mariadb state=started enabled=yes
+
