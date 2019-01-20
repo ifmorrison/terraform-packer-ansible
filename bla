@@ -1,0 +1,6 @@
+ec2keyName = publicKey
+public_subnets = [
+    subnet-079b3c3145e116ce0
+]
+vpc_id = vpc-084a673d43176f5d3
+
